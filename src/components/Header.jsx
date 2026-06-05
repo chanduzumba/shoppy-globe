@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux";
 import Logo from "../assets/shopping-bag.svg"
 import Cart from "../assets/shopping-cart.svg"
 
 function Header() {
+    const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -29,9 +32,9 @@ function Header() {
         {/* Cart Icon to display number of cart items and redirection to cart page */}
         <div className="flex items-center gap-2">
           <Link to="/cart" className="relative p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <img src={Cart} className="w-5 h-5" alt="Cart"/>
+            <img src={Cart} className="w-7 h-8" alt="Cart"/>
             <span className="absolute -top-1 -right-1 h-5 w-5 bg-red-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white shadow-sm">
-              5
+              {totalQuantity}
             </span>
           </Link>
         </div>
