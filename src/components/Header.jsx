@@ -1,16 +1,18 @@
+import { Link } from "react-router-dom"
+import Logo from "../assets/shopping-bag.svg"
+import Cart from "../assets/shopping-cart.svg"
+
 function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
-        <img src="/shopping-bag.svg" className="w-7 h-7" alt="Logo" />
-        <h1 className="text-2xl font-bold bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent cursor-pointer flex items-center">
-          ShoppyGlobe
-        </h1>
-        {/* Search Bar
-        <div className="relative flex items-center">
-          <input type="text" placeholder="Search products" className="border rounded-2xl" />
-        </div> */}
+        <Link to="/" className="flex items-center gap-2 cursor-pointer group">
+          <img src={Logo} className="w-7 h-7 transition-transform group-hover:scale-110" alt="Logo" />
+          <h1 className="text-2xl font-bold bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex items-center">
+            ShoppyGlobe
+          </h1>
+        </Link>
 
         {/* Search Bar Section Desktop View in same line*/}
         <div className="hidden sm:flex flex-1 max-w-md mx-8 relative items-center group">
@@ -26,12 +28,12 @@ function Header() {
 
         {/* Cart Icon to display number of cart items and redirection to cart page */}
         <div className="flex items-center gap-2">
-          <button className="relative p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <img src="/shopping-cart.svg" className="w-5 h-5" alt="Cart"/>
+          <Link to="/cart" className="relative p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <img src={Cart} className="w-5 h-5" alt="Cart"/>
             <span className="absolute -top-1 -right-1 h-5 w-5 bg-red-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white shadow-sm">
               5
             </span>
-          </button>
+          </Link>
         </div>
 
         
