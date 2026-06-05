@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import useFetch from "../hooks/useFetch";
 import ProductItem from "./ProductItem";
 
@@ -9,6 +10,9 @@ import ProductItem from "./ProductItem";
 const ProductList = () => {
   // Fetching products using the custom useFetch hook
   const { data, loading, error } = useFetch("https://dummyjson.com/products");
+
+  // Get the global search query from Redux
+  const searchQuery = useSelector((state) => state.products.searchQuery);
 
   // Clean loading state with a centered spinner
   if (loading) {
@@ -29,10 +33,25 @@ const ProductList = () => {
     );
   }
 
+  // Filter products based on title or category
+  const filteredProducts = data?.products?.filter((product) =>
+    product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    product.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Handle case where no products match the search query
+  if (filteredProducts?.length === 0 && searchQuery) {
+    return (
+      <div className="text-center py-10 w-full">
+        <p className="text-gray-500 italic text-lg">No products found matching "{searchQuery}"</p>
+      </div>
+    );
+  }
+
   // Responsive grid: 1 col on mobile, 2 on tablet, 3 on small laptops, 4 on desktop
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-4 sm:px-0">
-      {data?.products?.map((product) => (
+      {filteredProducts?.map((product) => (
         <ProductItem key={product.id} product={product} />
       ))}
     </div>

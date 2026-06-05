@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom"
-import { useSelector } from "react-redux";
+import { Link, useNavigate, useLocation } from "react-router-dom"
+import { useSelector, useDispatch } from "react-redux";
+import { setSearchQuery } from "../redux/slices/productSlice";
 import Logo from "../assets/shopping-bag.svg"
 import Cart from "../assets/shopping-cart.svg"
 
@@ -10,6 +11,22 @@ import Cart from "../assets/shopping-cart.svg"
 function Header() {
     // Access the total quantity from the global Redux cart state
     const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+    
+    // Access search state and setup dispatch/navigation
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const searchQuery = useSelector((state) => state.products.searchQuery);
+
+    // Handle search input changes
+    const handleSearch = (e) => {
+      const query = e.target.value;
+      dispatch(setSearchQuery(query));
+      // Redirect to home if searching from another page to see results
+      if (location.pathname !== "/" && query.trim() !== "") {
+        navigate("/");
+      }
+    };
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
@@ -27,6 +44,8 @@ function Header() {
           <input 
             type="text" 
             placeholder="Search products..." 
+            value={searchQuery}
+            onChange={handleSearch}
             className="w-full pl-4 pr-12 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-sm"
           />
           <button className="absolute right-0 p-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
@@ -51,6 +70,8 @@ function Header() {
           <input 
             type="text" 
             placeholder="Search products..." 
+            value={searchQuery}
+            onChange={handleSearch}
             className="w-full pl-4 pr-12 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-sm"
           />
           <button className="absolute right-0 p-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
