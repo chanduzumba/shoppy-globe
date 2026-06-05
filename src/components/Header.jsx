@@ -3,7 +3,12 @@ import { useSelector } from "react-redux";
 import Logo from "../assets/shopping-bag.svg"
 import Cart from "../assets/shopping-cart.svg"
 
+/**
+ * Header Component
+ * Contains navigation links, the logo, the search bar, and the cart status indicator.
+ */
 function Header() {
+    // Access the total quantity from the global Redux cart state
     const totalQuantity = useSelector((state) => state.cart.totalQuantity);
 
   return (

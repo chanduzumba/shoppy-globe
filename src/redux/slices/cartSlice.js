@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+/**
+ * Cart Slice
+ * Manages global state for the shopping cart including items, quantity, and total price.
+ */
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -42,6 +46,7 @@ const cartSlice = createSlice({
         const newQuantity = Math.max(0, Number(quantity));
         const quantityDiff = newQuantity - existingItem.quantity;
 
+        // If quantity is set to 0, remove the item entirely
         if (newQuantity === 0) {
           state.totalQuantity -= existingItem.quantity;
           state.totalAmount -= existingItem.quantity * existingItem.price;

@@ -39,7 +39,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <AppLayout />,
-    errorElement: <PageNotFound />,
+    errorElement: <PageNotFound />, // Handles routing errors globally
     children: [
       { index: true, element: <Home /> },
       { path: "product/:id", element: <ProductDetails /> },
