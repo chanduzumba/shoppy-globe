@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
  * @param {string} url - The endpoint to fetch data from.
  */
 const useFetch = (url) => {
-  const [products, setProducts] = useState(null);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -24,7 +24,7 @@ const useFetch = (url) => {
           throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
         }
         const result = await response.json();
-        setProducts(result.products);
+        setData(result);
         setError(null);
       } catch (err) {
         // Only update error state if the fetch wasn't intentionally aborted
@@ -41,7 +41,7 @@ const useFetch = (url) => {
     return () => controller.abort(); // Cleanup: cancel request on unmount
   }, [url]);
 
-  return { products, loading, error };
+  return { data, loading, error };
 };
 
 export default useFetch;

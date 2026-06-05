@@ -8,7 +8,7 @@ import ProductItem from "./ProductItem";
  */
 const ProductList = () => {
   // Fetching products using the custom useFetch hook
-  const { products, loading, error } = useFetch("https://dummyjson.com/products");
+  const { data, loading, error } = useFetch("https://dummyjson.com/products");
 
   // Clean loading state with a centered spinner
   if (loading) {
@@ -32,7 +32,7 @@ const ProductList = () => {
   // Responsive grid: 1 col on mobile, 2 on tablet, 3 on small laptops, 4 on desktop
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-4 sm:px-0">
-      {products?.map((product) => (
+      {data?.products?.map((product) => (
         <ProductItem key={product.id} product={product} />
       ))}
     </div>
