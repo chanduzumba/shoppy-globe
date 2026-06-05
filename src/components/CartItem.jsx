@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { removeFromCart, updateQuantity } from "../redux/slices/cartSlice";
+import toast from "react-hot-toast";
 
 /**
  * CartItem Component
@@ -9,6 +10,28 @@ import { removeFromCart, updateQuantity } from "../redux/slices/cartSlice";
  */
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
+
+  /**
+   * Handles quantity updates with stock validation.
+   * If requested quantity exceeds stock, it resets to max stock and notifies user.
+   */
+  const handleUpdateQuantity = (newQty) => {
+    const quantity = Number(newQty);
+    if (quantity > item.stock) {
+      dispatch(updateQuantity({ id: item.id, quantity: item.stock }));
+      toast.error(`Only ${item.stock} units available in stock.`, { id: "stock-limit" });
+    } else {
+      dispatch(updateQuantity({ id: item.id, quantity }));
+    }
+  };
+
+  /**
+   * Removes item from cart and shows a confirmation toast.
+   */
+  const handleRemove = () => {
+    dispatch(removeFromCart({ id: item.id }));
+    toast.success(`${item.title} removed from cart`);
+  };
 
   return (
     <div className="flex flex-col sm:flex-row items-center gap-6 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
@@ -36,14 +59,14 @@ const CartItem = ({ item }) => {
       {/* Quantity Controls */}
       <div className="flex items-center gap-4 bg-gray-50 p-1 rounded-xl border border-gray-100">
         <button
-          onClick={() => dispatch(updateQuantity({ id: item.id, quantity: item.quantity - 1 }))}
+          onClick={() => handleUpdateQuantity(item.quantity - 1)}
           className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm hover:text-blue-600 transition-colors"
         >
           <i className="fa-solid fa-minus text-xs"></i>
         </button>
         <span className="w-8 text-center font-bold text-gray-900">{item.quantity}</span>
         <button
-          onClick={() => dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 }))}
+          onClick={() => handleUpdateQuantity(item.quantity + 1)}
           className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm hover:text-blue-600 transition-colors"
         >
           <i className="fa-solid fa-plus text-xs"></i>
@@ -59,7 +82,7 @@ const CartItem = ({ item }) => {
           </p>
         </div>
         <button
-          onClick={() => dispatch(removeFromCart({ id: item.id }))}
+          onClick={handleRemove}
           className="text-gray-300 hover:text-red-500 transition-colors p-2"
           title="Remove Item"
         >
