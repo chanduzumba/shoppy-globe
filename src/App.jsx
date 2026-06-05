@@ -45,6 +45,7 @@ const router = createBrowserRouter([
       { path: "product/:id", element: <ProductDetails /> },
       { path: "cart", element: <Cart /> },
       { path: "checkout", element: <Checkout /> },
+      { path: "*", element: <PageNotFound /> }, // Catch-all route within the layout
     ],
   },
 ]);

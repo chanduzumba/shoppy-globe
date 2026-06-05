@@ -53,6 +53,8 @@ const ProductDetails = () => {
           <img 
             src={product.thumbnail} 
             alt={product.title} 
+            loading="lazy"
+            decoding="async"
             className="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-500"
           />
         </div>

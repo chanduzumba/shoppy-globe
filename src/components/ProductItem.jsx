@@ -29,6 +29,8 @@ const ProductItem = ({ product }) => {
         <img
           src={product.thumbnail}
           alt={product.title}
+          loading="lazy"
+          decoding="async"
           className="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-500"
         />
         <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg text-[11px] font-bold text-gray-700 shadow-sm flex items-center gap-1">
