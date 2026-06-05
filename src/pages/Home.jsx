@@ -1,3 +1,5 @@
+import ProductList from '../components/ProductList'
+
 function Home() {
   return (
     <div className="space-y-8">
@@ -7,7 +9,7 @@ function Home() {
         </h2>
         <p className="mt-4 text-lg text-gray-500">Quality items delivered to your doorstep.</p>
       </section>
-      {/* ProductList component will be integrated here */}
+      <ProductList />
     </div>
   )
 }
