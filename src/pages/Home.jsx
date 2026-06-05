@@ -1,4 +1,5 @@
 import ProductList from '../components/ProductList'
+import CategoryCarousel from '../components/CategoryCarousel'
 
 function Home() {
   return (
@@ -9,6 +10,7 @@ function Home() {
         </h2>
         <p className="mt-4 text-lg text-gray-500">Quality items delivered to your doorstep.</p>
       </section>
+      <CategoryCarousel />
       <ProductList />
     </div>
   )
