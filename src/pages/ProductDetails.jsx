@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/slices/cartSlice";
+import toast from "react-hot-toast"; // Keep toast import
 
 /**
  * ProductDetails Component
@@ -91,9 +92,25 @@ const ProductDetails = () => {
               <span className="text-sm text-gray-400 font-medium">Total Price</span>
               <span className="text-4xl font-black text-gray-900">${product.price}</span>
             </div>
-            {/* Dispatch the addToCart action with the product object as payload */}
-            <button 
-              onClick={() => dispatch(addToCart(product))}
+            <button
+              onClick={() => {
+                dispatch(addToCart(product));
+                toast.success(
+                  (t) => (
+                    <div className="flex items-center justify-between gap-4 min-w-[220px]">
+                      <span className="text-sm font-medium">Added to cart!</span>
+                      <Link
+                        to="/cart"
+                        onClick={() => toast.dismiss(t.id)}
+                        className="bg-blue-600 text-white text-xs px-3 py-1.5 rounded-lg hover:bg-blue-700 font-bold transition-colors"
+                      >
+                        View Cart
+                      </Link>
+                    </div>
+                  ),
+                  { icon: <img src={product.thumbnail} className="w-10 h-10 object-contain rounded" alt="" /> }
+                );
+              }}
               className="flex-1 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold py-4 px-8 rounded-2xl transition-all shadow-xl shadow-blue-100 flex items-center justify-center gap-3"
             >
               <i className="fa-solid fa-cart-plus text-xl"></i> Add to Cart

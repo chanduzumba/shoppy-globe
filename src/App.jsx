@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Header from "./components/Header";
 
 // Lazy load components to optimize initial bundle size
@@ -16,6 +17,8 @@ const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 const AppLayout = () => {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 antialiased">
+      {/* Notification container configured for the top-right corner */}
+      <Toaster position="top-right" reverseOrder={false} />
       {/* fixed header component common for all other components */}
       <Header />
       <main className="container mx-auto px-4 py-8">

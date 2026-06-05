@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/slices/cartSlice";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast"; // Keep toast import
 
 /**
  * ProductItem Component
@@ -17,6 +18,26 @@ const ProductItem = ({ product }) => {
   const handleAddToCart = (e) => {
     e.preventDefault(); // Prevents navigating to details page when clicking the cart button
     dispatch(addToCart(product));
+
+    // Display a custom toast with a "View Cart" button
+    toast.success(
+      (t) => (
+        <div className="flex items-center justify-between gap-4 min-w-[250px]">
+          <div className="flex flex-col">
+            <span className="text-sm font-medium">Added to cart!</span>
+            <span className="text-xs text-gray-500 line-clamp-1">{product.title}</span>
+          </div>
+          <Link
+            to="/cart"
+            onClick={() => toast.dismiss(t.id)}
+            className="bg-blue-600 text-white text-xs px-3 py-1.5 rounded-lg hover:bg-blue-700 font-bold whitespace-nowrap transition-colors"
+          >
+            View Cart
+          </Link>
+        </div>
+      ),
+      { icon: <img src={product.thumbnail} className="w-10 h-10 object-contain rounded" alt="" /> }
+    );
   };
 
   return (
