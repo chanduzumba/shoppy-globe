@@ -1,4 +1,4 @@
-import { Link, useNavigate, useLocation } from "react-router-dom"
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux";
 import { setSearchQuery } from "../redux/slices/productSlice";
 import Logo from "../assets/shopping-bag.svg"
@@ -53,9 +53,26 @@ function Header() {
           </button>
         </div>
 
-        {/* Cart Icon to display number of cart items and redirection to cart page */}
-        <div className="flex items-center gap-2">
-          <Link to="/cart" className="relative p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        {/* Nav Links and Cart Icon */}
+        <div className="flex items-center gap-2 sm:gap-4">
+          <nav className="hidden sm:flex items-center gap-5">
+            <NavLink to="/" className={({ isActive }) => `text-sm font-bold transition-colors ${isActive ? 'text-blue-600 underline underline-offset-8 decoration-2' : 'text-gray-600 hover:text-blue-600'}`}>
+              Home
+            </NavLink>
+            <NavLink to="/checkout" className={({ isActive }) => `text-sm font-bold transition-colors ${isActive ? 'text-blue-600 underline underline-offset-8 decoration-2' : 'text-gray-600 hover:text-blue-600'}`}>
+              Checkout
+            </NavLink>
+          </nav>
+
+          {/* Mobile Navigation Icons */}
+          <div className="flex sm:hidden items-center gap-1">
+            <NavLink to="/" className={({ isActive }) => `p-2 transition-colors ${isActive ? 'text-blue-600' : 'text-gray-500'}`}>
+              <i className="fa-solid fa-house text-lg"></i>
+            </NavLink>
+          </div>
+
+          <Link to="/cart" className="flex items-center gap-2 relative py-2 px-3 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <span className="hidden sm:inline text-sm font-bold">Cart</span>
             <img src={Cart} className="w-7 h-8" alt="Cart"/>
             <span className="absolute -top-1 -right-1 h-5 w-5 bg-red-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white shadow-sm">
               {totalQuantity}
@@ -77,7 +94,7 @@ function Header() {
           <button className="absolute right-0 p-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
             <i className="fa-solid fa-magnifying-glass text-sm"></i>
           </button>
-        </div>
+          </div>
 
     </header>
   );
