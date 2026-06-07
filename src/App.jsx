@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Header from "./components/Header";
 
-// Lazy load components to optimize initial bundle size
+// Lazy load components to optimize initial bundle size or load on demand
 const Home = lazy(() => import("./pages/Home"));
 const Cart = lazy(() => import("./pages/Cart"));
 const ProductDetails = lazy(() => import("./pages/ProductDetails"));
