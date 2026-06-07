@@ -9,7 +9,7 @@ import ProductItem from "./ProductItem";
  */
 const ProductList = () => {
   // Fetching products using the custom useFetch hook
-  const { data, loading, error } = useFetch("https://dummyjson.com/products");
+  const { data, loading, error } = useFetch("https://dummyjson.com/products?limit=100");
 
   // Get the global search query from Redux
   const searchQuery = useSelector((state) => state.products.searchQuery);
