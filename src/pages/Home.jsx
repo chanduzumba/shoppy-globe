@@ -1,7 +1,13 @@
+import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import ProductList from '../components/ProductList'
 import CategoryCarousel from '../components/CategoryCarousel'
 
 function Home() {
+  // Access the global search query to detect when to auto-scroll
+  const searchQuery = useSelector((state) => state.products.searchQuery);
+  const isInitialMount = useRef(true);
+
   const scrollToProducts = (e) => {
     e.preventDefault();
     const section = document.getElementById("products");
@@ -9,6 +15,25 @@ function Home() {
       section.scrollIntoView({ behavior: "smooth" });
     }
   };
+  
+  /**
+   * Automatically scroll to products when the category or search changes.
+   */
+  useEffect(() => {
+    // Skip the scroll logic on the initial component mount
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    // We check if an input is focused to avoid scrolling while the user is typing
+    const isTyping = document.activeElement?.tagName === "INPUT";
+    
+    if (!isTyping) {
+      const section = document.getElementById("products");
+      if (section) section.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [searchQuery]); // Dependency on searchQuery
 
   return (
     <div className="space-y-8">
@@ -48,6 +73,7 @@ function Home() {
         </div>
       </section>
 
+      {/* Main product catalog area */}
       <div id="products" className="scroll-mt-20">
         <CategoryCarousel />
         <ProductList />

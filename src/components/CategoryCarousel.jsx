@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useRef, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux"; // Import useDispatch and useSelector
 import { setSearchQuery } from "../redux/slices/productSlice";
 
 /**
@@ -47,10 +47,11 @@ const CategoryCarousel = () => {
     return () => clearInterval(autoScroll);
   }, []);
 
-  const handleCategoryClick = (categoryName) => {
+  // Dispatches action to update search results based on category selection
+  const handleCategoryClick = useCallback((categoryName) => { //useCallback to memoize the function and prevent unnecessary re-renders
     // If "All" is clicked, reset the search query to show everything
     dispatch(setSearchQuery(categoryName === "All" ? "" : categoryName));
-  };
+  }, [dispatch]);
 
   return (
     <div className="w-full mb-12">
@@ -58,6 +59,7 @@ const CategoryCarousel = () => {
         ref={scrollRef}
         className="flex items-center gap-4 overflow-x-auto pb-4 px-2 scrollbar-thin scrollbar-thumb-blue-200 scrollbar-track-transparent scroll-smooth"
       >
+        {/* Render category buttons dynamically based on the predefined list */}
         {categories.map((category) => {
           const isActive = (category.name === "All" && currentQuery === "") || 
                            (category.name !== "All" && currentQuery.toLowerCase() === category.name.toLowerCase());

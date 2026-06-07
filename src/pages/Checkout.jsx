@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { clearCart } from "../redux/slices/cartSlice";
@@ -28,44 +28,37 @@ function Checkout() {
 
   // Tracks if the user has attempted to place the order
   const [isSubmitted, setIsSubmitted] = useState(false);
+  // State to control the order success modal visibility
   const [orderSuccess, setOrderSuccess] = useState(false);
+  // Countdown for automatic redirection after order placement
   const [countdown, setCountdown] = useState(5);
-  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
-  const isPhoneValid = /^\d{10,15}$/.test(formData.phone);
-  const isCardNumberValid = /^\d{16}$/.test(formData.cardNumber);
-  const isExpiryFormatValid = /^(0[1-9]|1[0-2])\/\d{2}$/.test(formData.expiryDate);
-  const isNotExpired = (() => {
+
+  // Memoized validation checks for form fields
+  const isEmailValid = useMemo(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email), [formData.email]);
+  const isPhoneValid = useMemo(() => /^\d{10,15}$/.test(formData.phone), [formData.phone]);
+  const isCardNumberValid = useMemo(() => /^\d{16}$/.test(formData.cardNumber), [formData.cardNumber]);
+  const isExpiryFormatValid = useMemo(() => /^(0[1-9]|1[0-2])\/\d{2}$/.test(formData.expiryDate), [formData.expiryDate]);
+  
+  const isNotExpired = useMemo(() => {
     if (!isExpiryFormatValid) return false;
-    const [m, y] = formData.expiryDate.split("/").map(Number);
-    const now = new Date();
-    const curMonth = now.getMonth() + 1;
-    const curYear = now.getFullYear() % 100;
-    return y > curYear || (y === curYear && m >= curMonth);
-  })();
-  const isCvvValid = /^\d{3}$/.test(formData.cvv);
+    const [month, year] = formData.expiryDate.split("/").map(Number);
+    const currentYear = new Date().getFullYear() % 100; // Get last two digits of current year
+    const currentMonth = new Date().getMonth() + 1; // Month is 0-indexed
 
-  // Handle the automatic redirection countdown upon successful order
-  useEffect(() => {
-    let timer;
-    if (orderSuccess && countdown > 0) {
-      timer = setTimeout(() => setCountdown((prev) => prev - 1), 1000);
-    } else if (orderSuccess && countdown === 0) {
-      dispatch(clearCart());
-      navigate("/");
-    }
-    return () => clearTimeout(timer);
-  }, [orderSuccess, countdown, navigate, dispatch]);
+    // Check if the expiry year is in the future, or if it's the current year and the month is in the future/current
+    return year > currentYear || (year === currentYear && month >= currentMonth);
+  }, [formData.expiryDate, isExpiryFormatValid]);
 
-  const handleInputChange = (e) => {
+  const isCvvValid = useMemo(() => /^\d{3}$/.test(formData.cvv), [formData.cvv]);
+
+  // Memoized function to handle input changes
+  const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  }, []);
 
-  /**
-   * Handles the "Place Order" action.
-   * Validates form, clears cart, notifies user, and redirects home.
-   */
-  const handlePlaceOrder = (e) => {
+  // Memoized function to handle placing the order
+  const handlePlaceOrder = useCallback((e) => {
     e.preventDefault();
     setIsSubmitted(true);
     
@@ -81,7 +74,37 @@ function Checkout() {
     
     // Trigger the success modal and start redirection countdown
     setOrderSuccess(true);
-  };
+  }, [
+    formData.name,
+    formData.email,
+    formData.phone,
+    formData.address,
+    formData.city,
+    formData.paymentMethod,
+    isEmailValid,
+    isPhoneValid,
+    isCardNumberValid,
+    isExpiryFormatValid,
+    isNotExpired,
+    isCvvValid,
+    dispatch, // dispatch is stable, but good practice to include if used in effects/callbacks
+    navigate, // navigate is stable
+    items, // for order summary in modal
+    totalAmount // for order summary in modal
+  ]);
+
+  // Handle the automatic redirection countdown upon successful order
+  useEffect(() => {
+    let timer;
+    if (orderSuccess && countdown > 0) {
+      timer = setTimeout(() => setCountdown((prev) => prev - 1), 1000);
+    } else if (orderSuccess && countdown === 0) { // Only clear cart and navigate once countdown reaches 0
+      dispatch(clearCart());
+      navigate("/");
+    }
+    return () => clearTimeout(timer);
+  }, [orderSuccess, countdown, navigate, dispatch]);
+
 
   // Modal to show upon successful order placement
   if (orderSuccess) {
@@ -206,6 +229,7 @@ function Checkout() {
               </div>
             </div>
 
+            {/* Shipping Address: Where the goods will be delivered */}
             {/* Shipping Information Section */}
             <div className="space-y-6 pt-6 border-t border-gray-100">
               <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">

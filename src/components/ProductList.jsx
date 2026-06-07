@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import useFetch from "../hooks/useFetch";
 import ProductItem from "./ProductItem";
@@ -8,11 +9,21 @@ import ProductItem from "./ProductItem";
  * of ProductItem components, including loading and error states.
  */
 const ProductList = () => {
-  // Fetching products using the custom useFetch hook
+  // Get current filters from Redux
+  const searchQuery = useSelector((state) => state.products.searchQuery);
+
+  // Fetching products using the custom useFetch hook. 
+  // We fetch a larger set to allow for efficient local filtering.
   const { data, loading, error } = useFetch("https://dummyjson.com/products?limit=100");
 
-  // Get the global search query from Redux
-  const searchQuery = useSelector((state) => state.products.searchQuery);
+  // API results processing: Filter the current dataset locally based on global search state
+  //useMemo to memoize the filtered products and avoid unnecessary recalculations on every render
+  const filteredProducts = useMemo(() => { // Move this above early returns to follow Rules of Hooks
+    return data?.products?.filter((product) =>
+      product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.category.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [data?.products, searchQuery]);
 
   // Clean loading state with a centered spinner
   if (loading) {
@@ -32,12 +43,6 @@ const ProductList = () => {
       </div>
     );
   }
-
-  // Filter products based on title or category
-  const filteredProducts = data?.products?.filter((product) =>
-    product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    product.category.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   // Handle case where no products match the search query
   if (filteredProducts?.length === 0 && searchQuery) {

@@ -81,6 +81,7 @@ const ProductItem = ({ product }) => {
             <span className="text-2xl font-black text-gray-900 leading-none">${product.price?.toFixed(2)}</span>
             <span className="text-[10px] text-gray-400 font-medium">Incl. taxes</span>
           </div>
+          {/* Call to action: Add item to global cart state */}
           <button
             onClick={handleAddToCart}
             className="bg-blue-600 hover:bg-blue-700 active:scale-90 text-white w-11 h-11 rounded-xl transition-all flex items-center justify-center shadow-lg shadow-blue-100"

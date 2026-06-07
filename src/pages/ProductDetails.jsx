@@ -57,6 +57,7 @@ const ProductDetails = () => {
         <i className="fa-solid fa-arrow-left"></i> Back to Products
       </Link>
       
+      {/* Main product showcase section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-4 bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
         {/* Left Column: Product Image Gallery */}
         <div className="flex flex-col gap-6">

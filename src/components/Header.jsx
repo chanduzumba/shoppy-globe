@@ -1,6 +1,7 @@
+import { useCallback } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom"
-import { useSelector, useDispatch } from "react-redux";
-import { setSearchQuery } from "../redux/slices/productSlice";
+import { useSelector, useDispatch } from "react-redux"; // Import useDispatch and useSelector
+import { setSearchQuery } from "../redux/slices/productSlice"; // Import required actions
 import Logo from "../assets/shopping-bag.svg"
 import Cart from "../assets/shopping-cart.svg"
 
@@ -19,19 +20,26 @@ function Header() {
     const searchQuery = useSelector((state) => state.products.searchQuery);
 
     // Handle search input changes
-    const handleSearch = (e) => {
+    const handleSearch = useCallback((e) => { //useCallback to memoize the function and prevent unnecessary re-renders
       const query = e.target.value;
       dispatch(setSearchQuery(query));
+
+      // Automatically scroll to products section if on the home page and searching
+      if (location.pathname === "/" && query.trim() !== "") {
+        const section = document.getElementById("products");
+        if (section) section.scrollIntoView({ behavior: "smooth" });
+      }
+
       // Redirect to home if searching from another page to see results
       if (location.pathname !== "/" && query.trim() !== "") {
         navigate("/");
       }
-    };
+    }, [dispatch, location.pathname, navigate]);
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Logo */}
+        {/* Logo and Brand Title */}
         <Link to="/" className="flex items-center gap-2 cursor-pointer group">
           <img src={Logo} className="w-7 h-7 transition-transform group-hover:scale-110" alt="Logo" />
           <h1 className="text-2xl font-bold bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex items-center">

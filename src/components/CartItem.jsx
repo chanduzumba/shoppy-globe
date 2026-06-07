@@ -74,6 +74,7 @@ const CartItem = ({ item }) => {
         </button>
       </div>
 
+      {/* Price breakdown and item management */}
       {/* Subtotal & Remove */}
       <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-4 min-w-[100px]">
         <div className="hidden sm:block text-right">
