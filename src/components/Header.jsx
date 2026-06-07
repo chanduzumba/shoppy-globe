@@ -72,7 +72,6 @@ function Header() {
           </div>
 
           <Link to="/cart" className="flex items-center gap-2 relative py-2 px-3 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <span className="hidden sm:inline text-sm font-bold">Cart</span>
             <img src={Cart} className="w-7 h-8" alt="Cart"/>
             <span className="absolute -top-1 -right-1 h-5 w-5 bg-red-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-white shadow-sm">
               {totalQuantity}
