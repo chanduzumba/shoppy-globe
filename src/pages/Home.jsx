@@ -2,16 +2,56 @@ import ProductList from '../components/ProductList'
 import CategoryCarousel from '../components/CategoryCarousel'
 
 function Home() {
+  const scrollToProducts = (e) => {
+    e.preventDefault();
+    const section = document.getElementById("products");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="space-y-8">
-      <section className="text-center">
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
-          Discover Our Products
-        </h2>
-        <p className="mt-4 text-lg text-gray-500">Quality items delivered to your doorstep.</p>
+      {/* Hero Section: Eye-catching intro about the website */}
+      <section className="relative bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm">
+        <div className="flex flex-col lg:flex-row items-center">
+          <div className="flex-1 p-8 lg:p-12 space-y-6">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-widest">
+              Shoppy Globe • Global E-Commerce
+            </span>
+            <h1 className="text-4xl lg:text-6xl font-black text-gray-900 leading-[1.1]">
+              The World's Best <br />
+              <span className="text-blue-600">Shopping Hub</span>
+            </h1>
+            <p className="text-lg text-gray-500 max-w-lg leading-relaxed font-medium">
+              Shoppy Globe is your premium destination for a diverse range of high-quality products. 
+              From the latest tech gadgets to beauty essentials and home decor, we bring the global marketplace 
+              directly to your screen with a focus on quality, reliability, and style.
+            </p>
+            <div className="pt-4">
+              <a 
+                href="#products" 
+                onClick={scrollToProducts}
+                className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-blue-100 active:scale-95"
+              >
+                Start Shopping <i className="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+          <div className="flex-1 w-full h-[300px] lg:h-[450px]">
+            <img 
+              src="https://media.istockphoto.com/id/1163347414/photo/cosmetic-bottle-container-in-shopping-cart-beauty-product-and-makeup-online-sale-promotion.jpg?s=1024x1024&w=is&k=20&c=3lSKvtmXrFGFAvVXWfxrpRp5-jrEa3PgAKoY1WbliME=" 
+              alt="Premium Shopping Experience" 
+              className="w-full h-full object-cover rounded-2xl"
+            />
+          </div>
+        </div>
       </section>
-      <CategoryCarousel />
-      <ProductList />
+
+      <div id="products" className="scroll-mt-20">
+        <CategoryCarousel />
+        <ProductList />
+      </div>
     </div>
   )
 }
