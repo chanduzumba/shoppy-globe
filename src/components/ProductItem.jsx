@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/slices/cartSlice";
 import { Link } from "react-router-dom";
@@ -77,7 +78,7 @@ const ProductItem = ({ product }) => {
         {/* Card Footer: Price and Action Button */}
         <div className="mt-auto flex items-center justify-between gap-4 border-t border-gray-50 pt-4">
           <div className="flex flex-col">
-            <span className="text-2xl font-black text-gray-900 leading-none">${product.price}</span>
+            <span className="text-2xl font-black text-gray-900 leading-none">${product.price?.toFixed(2)}</span>
             <span className="text-[10px] text-gray-400 font-medium">Incl. taxes</span>
           </div>
           <button
@@ -91,6 +92,18 @@ const ProductItem = ({ product }) => {
       </div>
     </Link>
   );
+};
+// prop type validation
+ProductItem.propTypes = {
+  product: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    price: PropTypes.number.isRequired,
+    rating: PropTypes.number,
+    category: PropTypes.string,
+    thumbnail: PropTypes.string,
+  }).isRequired,
 };
 
 export default ProductItem;

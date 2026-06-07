@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { removeFromCart, updateQuantity } from "../redux/slices/cartSlice";
@@ -91,6 +92,18 @@ const CartItem = ({ item }) => {
       </div>
     </div>
   );
+};
+//prop type validation (api removed in react 19)
+CartItem.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    category: PropTypes.string,
+    price: PropTypes.number.isRequired,
+    quantity: PropTypes.number.isRequired,
+    stock: PropTypes.number.isRequired,
+    thumbnail: PropTypes.string,
+  }).isRequired,
 };
 
 export default CartItem;

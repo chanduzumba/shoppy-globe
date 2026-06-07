@@ -137,7 +137,7 @@ const ProductDetails = () => {
           <div className="mt-auto pt-8 border-t border-gray-100 flex items-center justify-between gap-8">
             <div className="flex flex-col">
               <span className="text-sm text-gray-400 font-medium">Total Price</span>
-              <span className="text-4xl font-black text-gray-900">${product.price}</span>
+              <span className="text-4xl font-black text-gray-900">${product.price?.toFixed(2)}</span>
             </div>
             <button
               onClick={() => {
