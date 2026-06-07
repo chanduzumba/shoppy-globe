@@ -8,10 +8,10 @@ import { setSearchQuery } from "../redux/slices/productSlice";
 const categories = [
   { name: "All", image: "https://img.icons8.com/color/96/shop.png" },
   { name: "Beauty", image: "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/thumbnail.png" },
-  { name: "Fragrances", image: "https://cdn.dummyjson.com/products/images/fragrances/Gucci%20Bloom%20Eau%20de%20Parfum/thumbnail.png" },
+  { name: "Fragrances", image: "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/thumbnail.webp" },
   { name: "Furniture", image: "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Bed/thumbnail.png" },
   { name: "Groceries", image: "https://cdn.dummyjson.com/products/images/groceries/Apple/thumbnail.png" },
-  { name: "Home Decoration", image: "https://cdn.dummyjson.com/products/images/home-decoration/Decoration%20and%20Gift%20Items/thumbnail.png" },
+  { name: "Home Decoration", image: "https://plus.unsplash.com/premium_photo-1670360414946-e33a828d1d52?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG9tZSUyMGRlY29yfGVufDB8fDB8fHww" },
   { name: "Laptops", image: "https://cdn.dummyjson.com/products/images/laptops/Apple%20MacBook%20Pro%2014%20Inch%20Space%20Grey/thumbnail.png" },
 ];
 
