@@ -85,6 +85,7 @@ const ProductItem = ({ product }) => {
           <button
             onClick={handleAddToCart}
             className="bg-blue-600 hover:bg-blue-700 active:scale-90 text-white w-11 h-11 rounded-xl transition-all flex items-center justify-center shadow-lg shadow-blue-100"
+            title="Add to cart"
             aria-label="Add to cart"
           >
             <i className="fa-solid fa-cart-plus"></i>

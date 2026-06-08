@@ -6,7 +6,9 @@ import CategoryCarousel from '../components/CategoryCarousel'
 function Home() {
   // Access the global search query to detect when to auto-scroll
   const searchQuery = useSelector((state) => state.products.searchQuery);
-  const isInitialMount = useRef(true);
+  
+  // Track the last handled query. Initializing with current value skips the mount trigger.
+  const lastScrollQuery = useRef(searchQuery);
 
   const scrollToProducts = (e) => {
     e.preventDefault();
@@ -20,18 +22,17 @@ function Home() {
    * Automatically scroll to products when the category or search changes.
    */
   useEffect(() => {
-    // Skip the scroll logic on the initial component mount
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
-    }
+    // Only trigger scroll if the query has actually changed since the last check
+    if (searchQuery !== lastScrollQuery.current) {
+      lastScrollQuery.current = searchQuery;
 
-    // We check if an input is focused to avoid scrolling while the user is typing
-    const isTyping = document.activeElement?.tagName === "INPUT";
-    
-    if (!isTyping) {
-      const section = document.getElementById("products");
-      if (section) section.scrollIntoView({ behavior: "smooth" });
+      // We check if an input is focused to avoid scrolling while the user is typing
+      const isTyping = document.activeElement?.tagName === "INPUT";
+      
+      if (!isTyping) {
+        const section = document.getElementById("products");
+        if (section) section.scrollIntoView({ behavior: "smooth" });
+      }
     }
   }, [searchQuery]); // Dependency on searchQuery
 

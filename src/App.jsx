@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 // Lazy load components to optimize initial bundle size or load on demand
 const Home = lazy(() => import("./pages/Home"));
@@ -33,6 +34,7 @@ const AppLayout = () => {
           <Outlet />
         </Suspense>
       </main>
+      <Footer />
     </div>
   );
 };
@@ -48,7 +50,7 @@ const router = createBrowserRouter([
       { path: "product/:id", element: <ProductDetails /> },
       { path: "cart", element: <Cart /> },
       { path: "checkout", element: <Checkout /> },
-      { path: "*", element: <PageNotFound /> }, // Catch-all route within the layout
+      // { path: "*", element: <PageNotFound /> }, // Catch-all route within the layout
     ],
   },
 ]);

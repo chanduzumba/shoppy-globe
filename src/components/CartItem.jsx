@@ -60,10 +60,15 @@ const CartItem = ({ item }) => {
       {/* Quantity Controls */}
       <div className="flex items-center gap-4 bg-gray-50 p-1 rounded-xl border border-gray-100">
         <button
-          onClick={() => handleUpdateQuantity(item.quantity - 1)}
-          className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm hover:text-blue-600 transition-colors"
+          onClick={item.quantity === 1 ? handleRemove : () => handleUpdateQuantity(item.quantity - 1)}
+          className={`w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm transition-colors ${item.quantity === 1 ? 'hover:text-red-500' : 'hover:text-blue-600'}`}
+          title={item.quantity === 1 ? "Remove item" : "Decrease quantity"}
         >
-          <i className="fa-solid fa-minus text-xs"></i>
+          {item.quantity === 1 ? (
+            <i className="fa-solid fa-trash-can text-xs"></i>
+          ) : (
+            <i className="fa-solid fa-minus text-xs"></i>
+          )}
         </button>
         <span className="w-8 text-center font-bold text-gray-900">{item.quantity}</span>
         <button
