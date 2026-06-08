@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
  * @param {string} url - The endpoint to fetch data from.
  */
 const useFetch = (url) => {
+  // State to hold the fetched data, loading status, and any errors
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,6 +18,7 @@ const useFetch = (url) => {
     const fetchData = async () => {
       setLoading(true);
       try {
+        // Make the API request with the abort signal for cancellation support
         const response = await fetch(url, { signal });
         
         // Throw error if response status is not OK (200-299)
@@ -24,14 +26,17 @@ const useFetch = (url) => {
           throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
         }
         const result = await response.json();
+        // Update state with the fetched data and reset any previous errors
         setData(result);
         setError(null);
       } catch (err) {
         // Only update error state if the fetch wasn't intentionally aborted
         if (err.name !== 'AbortError') {
+          // Update error state with the error message and clear any previous data
           setError(err.message);
         }
       } finally {
+        // Set loading to false regardless of success or failure
         setLoading(false);
       }
     };

@@ -47,6 +47,14 @@ https://shoppy-globe-two.vercel.app/
 - **Visual Feedback:** Custom toast notifications for cart actions (Add/Remove/Update).
 - **Smooth Navigation:** Support for smooth-scrolling and active-link highlighting.
 
+### Performance Optimizations
+- **Code Splitting:** Implemented React.lazy and Suspense for route-based code splitting, reducing initial bundle size and improving load times.
+- **Image Optimization:** Utilizes `loading="lazy"` and `decoding="async"` attributes on images for efficient loading and improved page responsiveness.
+- **Memoization:** Employs `useMemo` and `useCallback` hooks in complex components (e.g., Checkout form validation) to prevent unnecessary re-renders and optimize performance.
+- **Initial Mount Skip:** Custom logic using `useRef` to prevent unwanted auto-scrolling on the initial component mount, enhancing user experience.
+
+
+
 ---
 
 ##  Project Structure
